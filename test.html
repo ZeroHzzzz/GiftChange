@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>礼物交换配对</title>
+        <title>交换礼物捏</title>
         <style>
             body {
                 font-family: "Arial", sans-serif;
@@ -295,7 +295,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "礼物交换配对结果.txt";
+                a.download = "Results.txt";
                 a.click();
                 URL.revokeObjectURL(url);
             });
