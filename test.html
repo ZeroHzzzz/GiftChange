@@ -186,6 +186,21 @@
             const loadPairsInput = document.getElementById("loadPairsInput");
             const cardContainer = document.getElementById("cardContainer");
 
+            // 初始化时从 localStorage 加载数据
+            window.addEventListener("DOMContentLoaded", () => {
+                const savedPairs = localStorage.getItem("pairs");
+                if (savedPairs) {
+                    pairs = JSON.parse(savedPairs);
+                    renderCards();
+                    exportButton.disabled = false;
+                    flipAllButton.disabled = false;
+                }
+            });
+
+            const savePairsToLocalStorage = () => {
+                localStorage.setItem("pairs", JSON.stringify(pairs));
+            };
+
             // 文件上传时清空缓存
             fileInput.addEventListener("change", (event) => {
                 const file = event.target.files[0];
@@ -230,6 +245,7 @@
 
                     if (pairs.length > 0) {
                         renderCards();
+                        savePairsToLocalStorage();
                         exportButton.disabled = false;
                         flipAllButton.disabled = false;
                     } else {
@@ -250,6 +266,7 @@
                 }));
 
                 renderCards();
+                savePairsToLocalStorage(); // 保存到 localStorage
                 exportButton.disabled = false;
                 flipAllButton.disabled = false;
             });
@@ -299,6 +316,27 @@
                 a.click();
                 URL.revokeObjectURL(url);
             });
+
+            // 添加清除按钮
+            const clearStorageButton = document.createElement("button");
+            clearStorageButton.textContent = "清除保存的数据";
+            clearStorageButton.style.margin = "10px";
+            clearStorageButton.style.padding = "12px 25px";
+            clearStorageButton.style.backgroundColor = "#e53935";
+            clearStorageButton.style.color = "white";
+            clearStorageButton.style.border = "none";
+            clearStorageButton.style.borderRadius = "8px";
+            clearStorageButton.style.fontSize = "16px";
+            clearStorageButton.style.cursor = "pointer";
+            clearStorageButton.addEventListener("click", () => {
+                localStorage.removeItem("pairs");
+                pairs = [];
+                cardContainer.innerHTML = "";
+                exportButton.disabled = true;
+                flipAllButton.disabled = true;
+                alert("保存的数据已清除！");
+            });
+            document.querySelector(".upload-area").appendChild(clearStorageButton);
         </script>
     </body>
 </html>
